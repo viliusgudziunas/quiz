@@ -1,6 +1,12 @@
 # Base image
 FROM python:3.7.4-alpine
 
+# Install dependencies
+RUN apk update && \
+    apk add --virtual build-deps gcc python-dev musl-dev && \
+    apk add postgresql-dev && \
+    apk add netcat-openbsd
+
 # Set working directory
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
@@ -15,8 +21,12 @@ COPY ./Pipfile /usr/src/app/Pipfile
 COPY ./Pipfile.lock /usr/src/app/Pipfile.lock
 RUN pipenv install --deploy --system
 
+# Add entrypoint.sh
+COPY ./entrypoint.sh /usr/src/app/entrypoint.sh
+RUN chmod +x /usr/src/app/entrypoint.sh
+
 # Add app
 COPY . /usr/src/app
 
 # Run server
-CMD python manage.py run -h 0.0.0.0
+CMD ["/usr/src/app/entrypoint.sh"]
