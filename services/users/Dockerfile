@@ -13,13 +13,14 @@ WORKDIR /usr/src/app
 
 # Add and install requirements pip
 # COPY ./requirements.txt /usr/src/app/requirements.txt
-# RUN pip install -r requirements.txt
+# RUN pip install --upgrade pip && \
+#     pip install -r requirements.txt
 
 # Add and install requiremenets pipenv
-RUN pip install pipenv
+RUN pip install --upgrade pip && \
+    pip install pipenv
 COPY ./Pipfile /usr/src/app/Pipfile
-COPY ./Pipfile.lock /usr/src/app/Pipfile.lock
-RUN pipenv install --deploy --system
+RUN pipenv install --skip-lock --deploy --system
 
 # Add entrypoint.sh
 COPY ./entrypoint.sh /usr/src/app/entrypoint.sh
