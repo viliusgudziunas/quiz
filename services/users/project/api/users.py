@@ -35,28 +35,46 @@ class UsersList(Resource):
                 response_object["status"] = "success"
                 response_object["message"] = f"{email} was added!"
                 return response_object, 201
-            else:
-                response_object["message"] = "Sorry. That email already exists."
-                return response_object, 400
+            response_object["message"] = "Sorry. That email already exists."
+            return response_object, 400
         except exc.IntegrityError:
             db.session.rollback()
             return response_object, 400
+
+    def get(self):
+        """Get all users"""
+        response_object = {
+            "status": "success",
+            "data": {
+                "users": [user.to_json() for user in User.query.all()]
+            }
+        }
+        return response_object, 200
 
 
 class Users(Resource):
     def get(self, user_id):
         """Get single user details"""
-        user = User.query.filter_by(id=user_id).first()
         response_object = {
-            "status": "success",
-            "data": {
-                "id": user.id,
-                "username": user.username,
-                "email": user.email,
-                "active": user.active
-            }
+            "status": "fail",
+            "message": "User does not exist"
         }
-        return response_object, 200
+        try:
+            user = User.query.filter_by(id=int(user_id)).first()
+            if not user:
+                return response_object, 404
+            response_object = {
+                "status": "success",
+                "data": {
+                    "id": user.id,
+                    "username": user.username,
+                    "email": user.email,
+                    "active": user.active
+                }
+            }
+            return response_object, 200
+        except ValueError:
+            return response_object, 404
 
 
 api.add_resource(UsersPing, "/users/ping")
