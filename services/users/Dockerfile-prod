@@ -1,0 +1,26 @@
+FROM python:3.7.4-alpine
+
+RUN apk update && \
+    apk add --virtual build-deps gcc python-dev musl-dev && \
+    apk add postgresql-dev && \
+    apk add netcat-openbsd
+
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+# Add and install requirements pip
+# COPY ./requirements.txt /usr/src/app/requirements.txt
+# RUN pip install --upgrade pip && \
+#     pip install -r requirements.txt
+
+RUN pip install --upgrade pip && \
+    pip install pipenv
+COPY ./Pipfile /usr/src/app/Pipfile
+RUN pipenv install --skip-lock --deploy --system
+
+COPY ./entrypoint-prod.sh /usr/src/app/entrypoint-prod.sh
+RUN chmod +x /usr/src/app/entrypoint-prod.sh
+
+COPY . /usr/src/app
+
+CMD ["/usr/src/app/entrypoint-prod.sh"]
