@@ -1,10 +1,5 @@
 sudo: required
 
-branches:
-  only:
-    - master
-    - part2
-
 services:
   - docker
 
