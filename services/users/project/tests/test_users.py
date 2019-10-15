@@ -14,7 +14,7 @@ def add_user(username, email):
 
 test_user = {
     "username": "michael",
-    "email": "michaelmherman.org"
+    "email": "michael@mherman.org"
 }
 
 
@@ -62,7 +62,7 @@ class TestUserService(BaseTestCase):
         with self.client:
             response = self.client.post(
                 "/users",
-                data=json.dumps(test_user["email"]),
+                data=json.dumps({"email": test_user["email"]}),
                 content_type="application/json"
             )
             data = json.loads(response.data.decode())
@@ -77,22 +77,7 @@ class TestUserService(BaseTestCase):
         with self.client:
             response = self.client.post(
                 "/users",
-                data=json.dumps(test_user["username"]),
-                content_type="application/json"
-            )
-            data = json.loads(response.data.decode())
-            self.assertEqual(response.status_code, 400)
-            self.assertIn("Invalid payload.", data["message"])
-            self.assertIn("fail", data["status"])
-
-    def test_add_user_incorrect_email(self):
-        """
-        Ensure error is thrown if the JSON object has an incorrect email
-        """
-        with self.client:
-            response = self.client.post(
-                "/users",
-                data=json.dumps(test_user),
+                data=json.dumps({"username": test_user["username"]}),
                 content_type="application/json"
             )
             data = json.loads(response.data.decode())
@@ -193,7 +178,7 @@ class TestUserService(BaseTestCase):
             self.assertIn(b"fletcher", response.data)
 
     def test_main_add_user(self):
-        """Ensure a mew user can ne added to the database via a POST request"""
+        """Ensure a new user can ne added to the database via a POST request"""
         with self.client:
             response = self.client.post(
                 "/",

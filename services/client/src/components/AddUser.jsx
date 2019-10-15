@@ -45,7 +45,6 @@ const AddUser = ({ setUserAdded }) => {
         />
       </div>
       <input
-        name="submit"
         type="submit"
         className="button is-primary is-large is-fullwidth"
         value="Submit"

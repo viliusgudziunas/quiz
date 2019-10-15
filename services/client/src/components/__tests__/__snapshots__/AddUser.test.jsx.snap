@@ -32,7 +32,6 @@ exports[`AddUser renders a snapshot properly 1`] = `
   </div>
   <input
     className="button is-primary is-large is-fullwidth"
-    name="submit"
     type="submit"
     value="Submit"
   />
