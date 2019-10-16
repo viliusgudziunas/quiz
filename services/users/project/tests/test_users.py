@@ -59,7 +59,25 @@ class TestUserService(BaseTestCase):
             self.assertIn("Invalid payload.", data["message"])
             self.assertIn("fail", data["status"])
 
-    # test_add_user_duplicate_username
+    def test_add_user_duplicate_username(self):
+        """
+        Ensure error is thrown if the username already exists
+        """
+        add_user("michael", "michael@mherman.org", "greaterthaneight")
+        with self.client:
+            response = self.client.post(
+                "/users",
+                data=json.dumps({
+                    "username": "michael",
+                    "email": "test@testing.com",
+                    "password": "greaterthaneight"
+                }),
+                content_type="application/json"
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 400)
+            self.assertIn("Invalid payload.", data["message"])
+            self.assertIn("fail", data["status"])
 
     def test_add_user_empty_email(self):
         """
