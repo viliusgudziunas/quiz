@@ -21,7 +21,7 @@ class UsersList(Resource):
         post_data = request.get_json()
         response_object = {
             "status": "fail",
-            "message": "Invalid payload."
+            "message": "Invalid payload"
         }
         if not post_data:
             return response_object, 400
@@ -38,7 +38,7 @@ class UsersList(Resource):
                 response_object["status"] = "success"
                 response_object["message"] = f"{email} was added!"
                 return response_object, 201
-            response_object["message"] = "Sorry. That email already exists."
+            response_object["message"] = "Sorry. That email already exists"
             return response_object, 400
         except (exc.IntegrityError, ValueError):
             db.session.rollback()

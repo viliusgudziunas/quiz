@@ -38,15 +38,23 @@ def test():
 
 @cli.command("seed_db")
 def seed_db():
-    """Seeds the database."""
-    db.session.add(User(username="michael", email="hermanmu@gmail.com"))
-    db.session.add(User(username="michaelherman", email="michael@herman.org"))
+    """Seeds the database"""
+    db.session.add(User(
+        username="michael",
+        email="hermanmu@gmail.com",
+        password="greaterthaneight"
+    ))
+    db.session.add(User(
+        username="michaelherman",
+        email="michael@herman.org",
+        password="greaterthaneight"
+    ))
     db.session.commit()
 
 
 @cli.command()
 def cov():
-    """Runs the unit tests with coverage."""
+    """Runs the unit tests with coverage"""
     tests = unittest.TestLoader().discover("project/tests")
     results = unittest.TextTestRunner(verbosity=2).run(tests)
     if results.wasSuccessful():
