@@ -58,7 +58,7 @@ class User(db.Model):
                 auth_token, current_app.config.get("SECRET_KEY")
             )
             return payload["sub"]
-        except jwt.ExpiresSignatureError:
+        except jwt.ExpiredSignatureError:
             return "Signature expired. Please log in again."
         except jwt.InvalidTokenError:
             return "Invalid token. Please log in again."
