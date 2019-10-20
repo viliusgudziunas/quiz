@@ -8,17 +8,17 @@ test("AddUser renders properly", () => {
   const element = wrapper.find("form");
   expect(element.find("input").length).toBe(3);
 
-  const username_field = element.find("input").get(0);
-  expect(username_field.props.name).toBe("username");
-  expect(username_field.props.value).toBe("");
+  const usernameField = element.find("input").get(0);
+  expect(usernameField.props.name).toBe("username");
+  expect(usernameField.props.value).toBe("");
 
-  const email_field = element.find("input").get(1);
-  expect(email_field.props.name).toBe("email");
-  expect(email_field.props.value).toBe("");
+  const emailField = element.find("input").get(1);
+  expect(emailField.props.name).toBe("email");
+  expect(emailField.props.value).toBe("");
 
-  const submit_button = element.find("input").get(2);
-  expect(submit_button.props.type).toBe("submit");
-  expect(submit_button.props.value).toBe("Submit");
+  const submitButton = element.find("input").get(2);
+  expect(submitButton.props.type).toBe("submit");
+  expect(submitButton.props.value).toBe("Submit");
 });
 
 test("AddUser renders a snapshot properly", () => {
