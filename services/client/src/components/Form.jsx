@@ -1,22 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Redirect } from "react-router-dom";
 
-const Form = ({ formType }) => {
+const Form = ({ formType, isAuthenticated, setIsAuthenticated }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleUserFormSubmit = () => {
-    return;
+  const clearState = () => {
+    setUsername("");
+    setEmail("");
+    setPassword("");
   };
 
+  useEffect(() => {
+    clearState();
+  }, [formType]);
+
+  const handleUserFormSubmit = e => {
+    e.preventDefault();
+    const data = { email, password };
+    if (formType === "Register") {
+      data.username = username;
+    }
+    axios
+      .post(
+        `${
+          process.env.REACT_APP_USERS_SERVICE_URL
+        }/auth/${formType.toLowerCase()}`,
+        data
+      )
+      .then(res => {
+        clearState();
+        window.localStorage.setItem("authToken", res.data.auth_token);
+        setIsAuthenticated(true);
+      })
+      .catch(err => {
+        console.log(err.response.data);
+      });
+  };
+
+  if (isAuthenticated) {
+    return <Redirect to="/" />;
+  }
   return (
     <div>
-      {formType == "Login" && <h1 className="title is-1">Log In</h1>}
-      {formType == "Register" && <h1 className="title is-1">Register</h1>}
+      {formType === "Login" && <h1 className="title is-1">Log In</h1>}
+      {formType === "Register" && <h1 className="title is-1">Register</h1>}
       <hr />
       <br />
       <form onSubmit={handleUserFormSubmit}>
-        {formType == "Register" && (
+        {formType === "Register" && (
           <div className="field">
             <input
               type="text"

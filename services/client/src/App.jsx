@@ -6,11 +6,13 @@ import AddUser from "./components/AddUser";
 import About from "./components/About";
 import NavBar from "./components/NavBar";
 import Form from "./components/Form";
+import Logout from "./components/Logout";
 
 const App = () => {
   const [users, setUsers] = useState([]);
 
   const [userAdded, setUserAdded] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`)
@@ -21,9 +23,9 @@ const App = () => {
         console.log(err);
       });
     setUserAdded(false);
-  }, [setUsers, userAdded]);
+  }, [setUsers, userAdded, isAuthenticated]);
 
-  const [title, setTitle] = useState("TestDrivenTutorial.io");
+  const [title] = useState("TestDrivenTutorial.io");
 
   return (
     <div>
@@ -53,12 +55,31 @@ const App = () => {
                 <Route
                   exact
                   path="/register"
-                  render={() => <Form formType={"Register"} />}
+                  render={() => (
+                    <Form
+                      formType={"Register"}
+                      isAuthenticated={isAuthenticated}
+                      setIsAuthenticated={setIsAuthenticated}
+                    />
+                  )}
                 />
                 <Route
                   exact
                   path="/login"
-                  render={() => <Form formType={"Login"} />}
+                  render={() => (
+                    <Form
+                      formType={"Login"}
+                      isAuthenticated={isAuthenticated}
+                      setIsAuthenticated={setIsAuthenticated}
+                    />
+                  )}
+                />
+                <Route
+                  exact
+                  path="/logout"
+                  render={() => (
+                    <Logout setIsAuthenticated={setIsAuthenticated} />
+                  )}
                 />
               </Switch>
             </div>

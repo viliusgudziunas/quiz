@@ -16,7 +16,7 @@ const AddUser = ({ setUserAdded }) => {
         setEmail("");
       })
       .catch(err => {
-        console.log(err);
+        console.log(err.response.data);
       });
   };
 
