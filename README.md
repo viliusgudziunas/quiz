@@ -21,10 +21,13 @@ docker container ls [-a]
 docker image ls [-a]
 ```
 
-### Enable docker-machine environment
+### Docker Machine
 
 ```
 eval $(dm env appname)
+dm rm appname
+dm create appname --driver virtualbox
+dm restart appname
 ```
 
 ### Build docker containers

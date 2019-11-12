@@ -43,6 +43,7 @@ const Form = ({ formType, isAuthenticated, setIsAuthenticated }) => {
   if (isAuthenticated) {
     return <Redirect to="/" />;
   }
+
   return (
     <div>
       {formType === "Login" && <h1 className="title is-1">Log In</h1>}
