@@ -7,6 +7,7 @@ import About from "./components/About";
 import NavBar from "./components/NavBar";
 import Form from "./components/Form";
 import Logout from "./components/Logout";
+import UserStatus from "./components/UserStatus";
 
 const App = () => {
   const [users, setUsers] = useState([]);
@@ -29,7 +30,7 @@ const App = () => {
 
   return (
     <div>
-      <NavBar title={title} />
+      <NavBar title={title} isAuthenticated={isAuthenticated} />
       <section className="section">
         <div className="container">
           <div className="columns">
@@ -52,6 +53,13 @@ const App = () => {
                   )}
                 />
                 <Route exact path="/about" component={About} />
+                <Route
+                  exact
+                  path="/status"
+                  render={() => (
+                    <UserStatus isAuthenticated={isAuthenticated} />
+                  )}
+                />
                 <Route
                   exact
                   path="/register"
