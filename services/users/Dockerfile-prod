@@ -1,17 +1,11 @@
-FROM python:3.7.4-alpine
+FROM python:3.7.4-slim
 
-RUN apk update && \
-    apk add --virtual build-deps gcc python-dev musl-dev && \
-    apk add postgresql-dev && \
-    apk add netcat-openbsd
+RUN apt-get update && \
+    apt-get -y install netcat && \
+    apt-get clean
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
-
-# Add and install requirements pip
-# COPY ./requirements.txt /usr/src/app/requirements.txt
-# RUN pip install --upgrade pip && \
-#     pip install -r requirements.txt
 
 RUN pip install --upgrade pip && \
     pip install pipenv
