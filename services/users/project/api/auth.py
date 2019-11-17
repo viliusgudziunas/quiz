@@ -16,6 +16,7 @@ def register_user():
     }
     if not post_data:
         return jsonify(response_object), 400
+
     username = post_data.get("username")
     email = post_data.get("email")
     password = post_data.get("password")
@@ -26,6 +27,7 @@ def register_user():
         if user:
             response_object["message"] = "Sorry. That user already exists"
             return jsonify(response_object), 400
+
         new_user = User(
             username=username,
             email=email,
@@ -38,6 +40,7 @@ def register_user():
         response_object["message"] = "Successfully registered"
         response_object["auth_token"] = auth_token.decode()
         return jsonify(response_object), 201
+
     except (exc.IntegrityError, ValueError):
         db.session.rollback()
         return jsonify(response_object), 400
@@ -52,6 +55,7 @@ def login_user():
     }
     if not post_data:
         return jsonify(response_object), 400
+
     email = post_data.get("email")
     password = post_data.get("password")
     try:
@@ -59,15 +63,18 @@ def login_user():
         if not user:
             response_object["message"] = "User does not exist"
             return jsonify(response_object), 404
+
         if not password or \
                 not bcrypt.check_password_hash(user.password, password):
             response_object["message"] = "Incorrect password"
             return jsonify(response_object), 400
+
         auth_token = user.encode_auth_token(user.id)
         response_object["status"] = "success"
         response_object["message"] = "Successfully logged in"
         response_object["auth_token"] = auth_token.decode()
         return jsonify(response_object), 200
+
     except Exception:
         response_object["message"] = "Try again"
         return jsonify(response_object), 500

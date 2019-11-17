@@ -3,6 +3,7 @@ from flask_restful import Resource, Api
 from sqlalchemy import exc
 from project import db
 from project.api.models import User
+from project.api.utils import authenticate_restful, is_admin
 
 users_blueprint = Blueprint("users", __name__, template_folder="./templates")
 api = Api(users_blueprint)
@@ -17,14 +18,22 @@ class UsersPing(Resource):
 
 
 class UsersList(Resource):
-    def post(self):
+    method_decorators = {"post": [authenticate_restful]}
+
+    def post(self, resp):
         post_data = request.get_json()
         response_object = {
             "status": "fail",
             "message": "Invalid payload"
         }
+        if not is_admin(resp):
+            response_object["message"] =\
+                "You do not have permission to do that"
+            return response_object, 401
+
         if not post_data:
             return response_object, 400
+
         username = post_data.get("username")
         email = post_data.get("email")
         password = post_data.get("password")
@@ -38,8 +47,14 @@ class UsersList(Resource):
                 response_object["status"] = "success"
                 response_object["message"] = f"{email} was added!"
                 return response_object, 201
+
             response_object["message"] = "Sorry. That email already exists"
             return response_object, 400
+
+        except exc.IntegrityError:
+            db.session.rollback()
+            return response_object, 400
+
         except (exc.IntegrityError, ValueError):
             db.session.rollback()
             return response_object, 400
@@ -66,6 +81,7 @@ class Users(Resource):
             user = User.query.filter_by(id=int(user_id)).first()
             if not user:
                 return response_object, 404
+
             response_object = {
                 "status": "success",
                 "data": {
@@ -76,6 +92,7 @@ class Users(Resource):
                 }
             }
             return response_object, 200
+
         except ValueError:
             return response_object, 404
 

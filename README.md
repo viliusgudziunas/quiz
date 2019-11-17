@@ -13,6 +13,10 @@ source ~/.bashrc
 - dc='docker-compose'
 - dm='docker-machine'
 
+### Environment variables
+
+REACT_APP_USERS_SERVICE_URL
+
 ### Docker machines, containers and images
 
 ```
@@ -48,6 +52,15 @@ dc exec users-db psql -U postgres
 
 ```
 dc exec users python manage.py db init
+dc exec users python manage.py db migrate
+dc exec users python manage.py db upgrade
+```
+
+If migration fails:
+
+```
+dc exec users python manage.py db stamp heads
+dc exec users python manage.py db current
 dc exec users python manage.py db migrate
 dc exec users python manage.py db upgrade
 ```

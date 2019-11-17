@@ -13,6 +13,7 @@ class User(db.Model):
     password = db.Column(db.String(255), nullable=False)
     active = db.Column(db.Boolean(), default=True, nullable=False)
     created_date = db.Column(db.DateTime, default=func.now(), nullable=False)
+    admin = db.Column(db.Boolean, default=False, nullable=False)
 
     def __init__(self, username, email, password):
         self.username = username
@@ -27,7 +28,8 @@ class User(db.Model):
             "id": self.id,
             "username": self.username,
             "email": self.email,
-            "active": self.active
+            "active": self.active,
+            "admin": self.admin
         }
 
     def encode_auth_token(self, user_id):
@@ -46,6 +48,7 @@ class User(db.Model):
                 current_app.config.get("SECRET_KEY"),
                 algorithm="HS256"
             )
+
         except Exception as e:
             return e
 
@@ -59,7 +62,9 @@ class User(db.Model):
                 auth_token, current_app.config.get("SECRET_KEY")
             )
             return payload["sub"]
+
         except jwt.ExpiredSignatureError:
             return "Signature expired. Please log in again"
+
         except jwt.InvalidTokenError:
             return "Invalid token. Please log in again"
