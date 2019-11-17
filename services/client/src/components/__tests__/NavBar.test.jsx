@@ -6,20 +6,22 @@ import Navbar from "../NavBar";
 
 const title = "Hello, World!";
 
-test("NavBar renders properly", () => {
-  const wrapper = shallow(<Navbar title={title} />);
-  const element = wrapper.find("strong");
-  expect(element.length).toBe(1);
-  expect(element.get(0).props.children).toBe(title);
-});
+describe("NavBar component", () => {
+  it("should match the snapshot", () => {
+    const tree = renderer
+      .create(
+        <Router location="/">
+          <Navbar title={title} />
+        </Router>
+      )
+      .toJSON();
+    expect(tree).toMatchSnapshot();
+  });
 
-test("NavBar renders a snapshot properly", () => {
-  const tree = renderer
-    .create(
-      <Router location="/">
-        <Navbar title={title} />
-      </Router>
-    )
-    .toJSON();
-  expect(tree).toMatchSnapshot();
+  const wrapper = shallow(<Navbar title={title} />);
+  it("should render a title", () => {
+    const element = wrapper.find("strong");
+    expect(element.length).toBe(1);
+    expect(element.get(0).props.children).toBe(title);
+  });
 });

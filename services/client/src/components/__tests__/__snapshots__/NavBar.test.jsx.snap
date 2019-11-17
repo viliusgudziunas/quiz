@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`NavBar renders a snapshot properly 1`] = `
+exports[`NavBar component should match the snapshot 1`] = `
 <nav
   aria-label="main navigation"
   className="navbar is-dark"

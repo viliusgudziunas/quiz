@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Form should match the snapshot 1`] = `
+exports[`Form component should match the snapshot 1`] = `
 <div>
   <h1
     className="title is-1"
@@ -60,7 +60,7 @@ exports[`Form should match the snapshot 1`] = `
 </div>
 `;
 
-exports[`Form should match the snapshot 2`] = `
+exports[`Form component should match the snapshot 2`] = `
 <div>
   <h1
     className="title is-1"

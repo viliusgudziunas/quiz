@@ -3,9 +3,13 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 const UserStatus = ({ isAuthenticated }) => {
-  const [email, setEmail] = useState("");
-  const [id, setId] = useState("");
-  const [username, setUsername] = useState("");
+  const [userDetails, setUserDetails] = useState({
+    id: "",
+    email: "",
+    username: "",
+    active: "",
+    admin: ""
+  });
 
   useEffect(() => {
     const options = {
@@ -18,14 +22,19 @@ const UserStatus = ({ isAuthenticated }) => {
     };
     axios(options)
       .then(res => {
-        setEmail(res.data.data.email);
-        setId(res.data.data.id);
-        setUsername(res.data.data.username);
+        const data = res.data.data;
+        setUserDetails({
+          id: data.id,
+          email: data.email,
+          username: data.username,
+          active: String(data.active),
+          admin: String(data.admin)
+        });
       })
       .catch(error => {
         console.log(error);
       });
-  }, [setEmail, setId, setUsername]);
+  }, [setUserDetails]);
 
   if (!isAuthenticated) {
     return (
@@ -40,15 +49,23 @@ const UserStatus = ({ isAuthenticated }) => {
       <ul>
         <li>
           <strong>User ID: </strong>
-          {id}
+          {userDetails.id}
         </li>
         <li>
           <strong>Email: </strong>
-          {email}
+          {userDetails.email}
         </li>
         <li>
           <strong>Username: </strong>
-          {username}
+          {userDetails.username}
+        </li>
+        <li>
+          <strong>Active: </strong>
+          {userDetails.active}
+        </li>
+        <li>
+          <strong>Admin: </strong>
+          {userDetails.admin}
         </li>
       </ul>
     </div>

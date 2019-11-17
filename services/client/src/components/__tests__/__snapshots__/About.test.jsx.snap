@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`About renders a snapshot properly 1`] = `
+exports[`About component should match the snapshot 1`] = `
 <div>
   <h1
     className="title is-1"
@@ -10,7 +10,7 @@ exports[`About renders a snapshot properly 1`] = `
   <hr />
   <br />
   <p>
-    Add something relevant here.
+    Add something relevant here
   </p>
 </div>
 `;

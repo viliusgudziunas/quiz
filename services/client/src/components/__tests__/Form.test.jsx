@@ -16,7 +16,7 @@ const testData = [
   }
 ];
 
-describe("Form", () => {
+describe("Form component", () => {
   testData.forEach(el => {
     const component = <Form {...el} />;
     it("should match the snapshot", () => {
@@ -52,7 +52,7 @@ describe("Form", () => {
 describe("When not authenticated", () => {
   testData.forEach(el => {
     const component = <Form {...el} />;
-    it(`${el.formType} Form renders properly`, () => {
+    it(`${el.formType} Form component renders properly`, () => {
       const wrapper = shallow(component);
       const h1 = wrapper.find("h1");
       expect(h1.length).toBe(1);
@@ -77,7 +77,7 @@ describe("When not authenticated", () => {
 describe("When authenticated", () => {
   testData.forEach(el => {
     const component = <Form formType={el.formType} isAuthenticated={true} />;
-    it(`${el.formType} redirects properly`, () => {
+    it(`${el.formType} component redirects properly`, () => {
       const wrapper = shallow(component);
       expect(wrapper.find("Redirect")).toHaveLength(1);
     });
