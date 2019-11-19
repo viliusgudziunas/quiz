@@ -71,7 +71,7 @@ dc exec users python manage.py db upgrade
 dc exec users python manage.py test
 dc exec users python manage.py cov
 dc exec users flake8 . --exclude migrations
-dc exec client npm test
+dc exec client npm test -- --verbose
 dc exec client react-scripts test --coverage --watchAll=false
 ```
 
