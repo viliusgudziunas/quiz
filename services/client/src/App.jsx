@@ -15,6 +15,12 @@ const App = () => {
     setUserAdded(false);
   }, [userAdded, isAuthenticated]);
 
+  useEffect(() => {
+    if (window.localStorage.getItem("authToken")) {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
   const [title] = useState("TestDrivenTutorial.io");
 
   return (
