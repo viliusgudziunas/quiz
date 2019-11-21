@@ -73,6 +73,13 @@ dc exec users python manage.py cov
 dc exec users flake8 . --exclude migrations
 dc exec client npm test -- --verbose
 dc exec client react-scripts test --coverage --watchAll=false
+./node_modules/.bin/cypress run --config baseUrl=http://192.168.99.102/
+```
+
+To run all tests:
+
+```
+sh test.sh
 ```
 
 ### Logs
