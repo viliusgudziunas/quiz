@@ -46,6 +46,12 @@ describe("Form component", () => {
     it("should have a password field", () => {
       expect(wrapper.find("input[name='password']").length).toEqual(1);
     });
+
+    it("should have a disabled button", () => {
+      expect(
+        wrapper.find("input[type='submit']").get(0).props.disabled
+      ).toEqual(true);
+    });
   });
 });
 

@@ -53,6 +53,7 @@ exports[`Form component should match the snapshot 1`] = `
     </div>
     <input
       className="button is-primary is-medium is-fullwidth"
+      disabled={true}
       type="submit"
       value="Submit"
     />
@@ -100,6 +101,7 @@ exports[`Form component should match the snapshot 2`] = `
     </div>
     <input
       className="button is-primary is-medium is-fullwidth"
+      disabled={false}
       type="submit"
       value="Submit"
     />

@@ -8,7 +8,12 @@ describe("Login", () => {
     cy.visit("/login")
       .get("h1")
       .contains("Log In")
-      .get("form");
+      .get("form")
+      .get("input[disabled]")
+      .get(".validation-list")
+      .get(".validation-list > error")
+      .first()
+      .contains("Email is required");
   });
 
   it("should allow user to log in", () => {

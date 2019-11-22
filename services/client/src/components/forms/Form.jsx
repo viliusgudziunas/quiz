@@ -1,11 +1,21 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
+import { registerFormRules, loginFormRules } from "./form-rules";
 
 const Form = ({ formType, isAuthenticated, setIsAuthenticated }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [valid, setValid] = useState(false);
+  const [registterFormRules, setRegisterFormRules] = useState(
+    registerFormRules
+  );
+  const [loginFormRules, setLoginFormRules] = useState(loginFormRules);
+
+  useEffect(() => {
+    setValid(true);
+  }, [username, email, password]);
 
   const clearState = () => {
     setUsername("");
@@ -90,6 +100,7 @@ const Form = ({ formType, isAuthenticated, setIsAuthenticated }) => {
           type="submit"
           className="button is-primary is-medium is-fullwidth"
           value="Submit"
+          disabled={!valid}
         />
       </form>
     </div>
